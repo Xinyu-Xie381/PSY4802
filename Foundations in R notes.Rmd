@@ -485,11 +485,7 @@ dataset with 4 gears.
 
 ```{r}
 mtcars[mtcars$cyl == 6,]
-subset(mtcars, mtcars$cyl == 6)
 
-library(tidyverse)
-
-mtcars %>% filter(cyl == 6)
 ```
 
 In this case, you'll notice that I put a comma after the logical
@@ -504,7 +500,11 @@ If we wanted to get the same subset of data as above, we could do the
 following:`subset(dataframe, condition)`
 
 ```{r}
-subset(mtcars, )
+subset(mtcars, mtcars$cyl == 6)
+
+library(tidyverse)
+
+mtcars %>% filter(cyl == 6)
 ```
 
 ## Practice:
@@ -512,16 +512,27 @@ subset(mtcars, )
 
 ```{r}
 subset(mtcars, mtcars$mpg < 25)
+
+
+mtcars %>% filter(mpg < 25)
+
+mtcars[mtcars$mpg < 25,]
 ```
 
 
 2. create a subset of data with all cars that have an automatic transmission
 ```{r}
-
+subset(mtcars, mtcars$am == 0)
 ```
 
 
 3. create a subset of data with all cars that have at least  100 horsepower and 4 gears. 
+
+```{r}
+library(tidyverse)
+mtcars %>% filter(gear >= 4 & hp >= 100)
+```
+
 
 
 **A Note on Pipes (more advanced)** If not, we're going to talk about
@@ -542,7 +553,7 @@ a package, you need to first use the following code in the console:
 After that, we need to use the library command to load the package
 
 ```{r}
-
+library(tidyverse)
 ```
 
 We can use filter and select to subset data with pipes.
@@ -550,13 +561,21 @@ We can use filter and select to subset data with pipes.
 We can use `filter()` to pick a subset of rows:
 
 ```{r}
+fourthGear <- mtcars |> filter(gear == 4)
 
+#keyboard shortcut - ctrl+shift+m
 ```
 
 We can use `select()` to pick a subset of columns:
 
 ```{r}
+fourthGear |> select(mpg, hp, am)
+```
 
+
+```{r}
+fourthGear2 <- mtcars |> filter(gear == 4) |> select(mpg)
+fourthGear2
 ```
 
 
@@ -564,11 +583,29 @@ We can use `select()` to pick a subset of columns:
 
 1.  Load the ChickWeight dataset.
 
+```{r}
+data(ChickWeight)
+```
+
+
 2.  Create a subset of data that contains information for Chick 8
 
+```{r}
+chick8 <- subset(ChickWeight, ChickWeight$Chick == 8)
+```
+
+
 3.  Create a subset of data for Diet 2 only.
+```{r}
+diet2 <- subset(ChickWeight, ChickWeight$Diet == 2)
+```
 
 4.  Create a subset of data for all chicks weighing less than 100 gm.
+
+```{r}
+lowWeightChick <- subset(ChickWeight, ChickWeight$weight < 100)
+```
+
 
 ### Learning Outcome 5: Describe your data effectively
 
@@ -582,12 +619,23 @@ of our data. they both use a similar format
 install ggplot if you haven't already!)
 
 ```{r}
+head(ChickWeight)
 
+#1st row
+head(ChickWeight,1)
+
+#looks at the bottom of dataset
+tail(ChickWeight)
+tail(ChickWeight,1)
 ```
 
 hypothetically, we have a dataset with 1000 rows. can we just get rows 50-100? 
 yes! 
 dataset[50:100,]
+```{r}
+ChickWeight[50:100,]
+```
+
 
 This lets us see just part of our data to make sure it loaded
 appropriately/is what we expect.
@@ -596,7 +644,8 @@ appropriately/is what we expect.
 `summary()`.
 
 ```{r}
-
+summary(ChickWeight)
+summary(ChickWeight$Chick)
 ```
 
 What do you notice about the summaries?
@@ -615,41 +664,78 @@ If we need the # of observations, we can use `length()` or `nrow()` to
 get this information.
 
 ```{r}
+#only use on vectors
+length(ChickWeight$Diet)
 
+#only gives the 4 variables (columns)
+length(ChickWeight)
+
+
+nrow(ChickWeight)
 ```
 
 We can also take the average by using the function `mean()`.
 
 ```{r}
-
+mean(ChickWeight$weight)
 ```
 
 We can get the standard deviation using `sd()`.
 
 ```{r}
-
+sd(ChickWeight$weight)
 ```
 
 `var()`gives us the variance
 
 ```{r}
-
+var(ChickWeight$weight)
 ```
 
 `range()` gives us the range
 
 ```{r}
+#gives the min and max 
+range(ChickWeight$weight)
 
+rangeChick <- range(ChickWeight$weight)
+#max(num in 2nd position) - min (num in 1st position) = range
+rangeChick[2] - rangeChick[1]
 ```
 
 ###Learning Outcome 5 Practice
 
 1.  Summarize the ChickWeight dataset
+```{r}
+summary(ChickWeight)
+```
+
 
 2.  Find the mean of the weight column
+```{r}
+mean(ChickWeight$weight)
+```
+
 
 3.  Summarize the data for just the 1st chick
+```{r}
+summary(subset(ChickWeight, ChickWeight$Chick == 1))
+
+summary(ChickWeight |> filter(Chick == 1))
+```
+
 
 4.  What is the variance of the 1st chick's weight?
 
+```{r}
+var(subset(ChickWeight, ChickWeight$Chick == 1))
+```
+
+
 5.  What is the range in weight for each chick posted in the dataset?
+
+```{r}
+chick1 <- subset(ChickWeight, Chick == 1)
+weightRange <- range(chick1$weight)
+weightRange[2] - weightRange[1]
+```
