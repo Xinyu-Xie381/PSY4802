@@ -10,22 +10,103 @@ For your first R Assignment, complete the questions below. Remember, weekly assi
 # Variables, Vectors, Lists, and Data frames
 
 1. Create a vector called score that starts at 1 and contains every 9th number between 1 and 100. 
+```{r}
+score <- c(seq(1,100,9))
+```
+
+
 2. Create a list called participants that contains the participants 1 - 12. 
+```{r}
+participants <- c("participants 1", "participants 2","participants 3", "participants 4", "participants 5", "participants 6", "participants 7", "participants 8", "participants 9", "participants 10", "participants 11", "participants 12")
+
+```
+
+
 3. Create a list called condition that alternates the words control and experimental six times, for a total of 12 words.
+
+```{r}
+condition <- rep(times = 3, x = "control" & "experimental")
+```
+
+
+
 4. Create a dataframe from the variables in #1-3. 
+
+```{r}
+dat<- cbind.data.frame(scores, participants, condition)
+```
+
+
 5. Take the mean of the score column from your dataframe.
+```{r}
+mean(dat$score)
+```
+
 
 # Using data frames 
 
 6. Open the penguins dataframe. Print the dataframe.  
+```{r}
+data(penguins)
+penguins
+```
+
 7. Create a subset of data for Adelie penguins. 
+```{r}
+adeliePenguin <- subset(penguins, penguins$species == "Adelie")
+```
+
+
 8. Summarize this subset of data. 
+```{r}
+summary(adeliePenguin)
+```
+
+
 8. Create a dataframe that contains penguins with a bill length greater than or equal to the average bill length. 
+```{r}
+meanBillLength <- mean(penguins$bill_len, na.rm = TRUE)
+billLengthDat <- subset(penguins, penguins$bill_len >= meanBillLength)
+
+```
+
+
 9. How many penguins are in this subset? 
+
+There are 175 penguins in this subset, which can be identified through global environment that shows the number of objects included in this subset.
+
 
 # More dataset use
 10. Load the tidyverse library if you haven't already done so.
+```{r}
+library(tidyverse)
+```
+
 12. Create a new dataframe that has diamonds greater than 1 carat and an ideal cut. 
+```{r}
+diamondDat <- diamonds %>% filter(carat > 1 & cut == "Ideal")
+```
+
+
 13. Find the mean and standard deviation of price for this new dataset. 
+```{r}
+mean(diamondDat$price)
+sd(diamondDat$price)
+```
+
+
 14. Create another new dataframe from the original diamonds dataset that includes all diamonds with a price between $2500 and $5000. 
+
+```{r}
+diamondDat1 <- diamonds %>% filter(5000> price & price > 2500)
+```
+
+
 15. Which color occurs most in this new subset?
+```{r}
+summary(diamondDat1)
+```
+The color that occurs most in this subset is F.
+
+
+
