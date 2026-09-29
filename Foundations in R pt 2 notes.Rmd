@@ -24,7 +24,7 @@ We'll keep talking about dataframes throughout the semester, but there are some 
 Last time, we talked about how you can compute descriptive statistics on specific variables by using `dataframe$name`. what do you do if you don't remember the name of a variable? 
 
 ```{r}
-library(penguins)
+library(palmerpenguins)
 penguins$species
 ```
 
@@ -52,13 +52,18 @@ colnames(penguins)[1] <- "species"
 It **also** means that you can change names if necessary (when we talk about dataframe manipulation next week, this can become important.)
 `colnames(data)[position]`
 ```{r}
-
+colnames(penguins)[1] <- "species"
 ```
 
 More often than not, we're using datasets that we either created or received from collaborators. That means that you may be dealing with problems **past you** graciously left you, different naming conventions, or even needing to manipulate variables that combine information. We'll talk about how to fix some of the more involved ones next week. For now, ones that may be helpful are making sure your column names are all lower case or all upper case. You can do this with the `toupper()` and `tolower()` functions:
 
 ```{r}
+colnames(penguins) <- toupper(colnames(penguins))
+colnames(penguins)
 
+colnames(penguins) <- tolower(colnames(penguins))
+colnames(penguins)
+         
 ```
 
 ### Adding Column Names
@@ -67,19 +72,28 @@ dataframe$newColumn<- whatever you're assigning
 
 For instance, if you want to add a blank column:
 ```{r}
-
+penguins$favorite <- NA
 ```
 Then you can fill it with whatever information you want. 
 ```{r}
+penguins$species
 
 ```
 or you can fill the new column in based on other data in the dataframe
 ```{r}
 #chinstrap penguin jump
 
+penguins$favorite[penguins$species == "Adelie"] <- "Yes"
+penguins$favorite[penguins$species != "Adelie"] <- "No"
+
 ```
 can do math to fill in the columns
 ```{r}
+penguins$bigPenguins <- NA
+
+penguins$bigPenguins[penguins$body_mass > mean(penguins$body_mass, na.rm = TRUE)] <- "big penguin"
+
+penguins$bigPenguins[penguins$body_mass <= mean(penguins$body_mass, na.rm = TRUE)] <- "not so big penguin"
 
 ```
 
@@ -87,16 +101,20 @@ can do math to fill in the columns
 
 1. Change all of the column names in mtcars to capital letters
 ```{r}
+data(mtcars)
+colnames(mtcars)[1:11] <- c("MPG", "CYL", "DISP", "HP", "DRAT", "WT", "QSEC", "VS", "AM","GEAR", "CARB")
+colnames(mtcars) <- toupper(colnames(mtcars))
 
 ```
 2. Change the name of the 9th column to reflect the values in the am column description
 ```{r}
-
+colnames(mtcars)[9] <- "TRANSMISSION"
 ```
 
 3. Change the 4th column name to all lowercase letters 
 ```{r}
-
+colnames(mtcars)[4] <- "hp"
+colnames(mtcars) <- tolower(colnames(mtcars))
 ```
 
 ## Learning Outcome 2: Explain different classes of variables and how to change the class
@@ -116,38 +134,61 @@ We talked about this a little bit last week, but there are different classes (ty
 
 You can check the class of your data using `class()`
 ```{r}
-
+class(penguins$body_mass)
 ```
 
 If you want to change the class of your variable, you can assign `as.Preferredclass(dataframe$column)` to the column name
 
 ```{r}
 "is.classname"
+is.integer(penguins$body_mass)
+is.factor(penguins$body_mass)
 
 "as.classname"
+as.factor(penguins$body_mass)
+as.character(penguins$body_mass)
+
 #make a new column 
+penguins$species <- as.factor(penguins$species)
+class(penguins$species)
 
 # going from factor to numeric can cause issues and there's a specific way to do it
+
 ```
 **DOUBLE CHECK YOUR DATA**
 ```{r}
+penguins$body_mass2 <- as.factor(penguins$body_mass)
+penguins$body_mass2 <- as.numeric(penguins$body_mass2)
 
+library(tidyverse)
+penguins |> select(body_mass, body_mass2)
+
+
+penguins$body_mass3 <- as.factor(penguins$body_mass)
+penguins$body_mass3 <- as.numeric(levels(penguins$body_mass3)[penguins$body_mass3])
+
+penguins |> select(body_mass, body_mass3)
+
+
+#tells the unique categories in penguins 
+levels(penguins$species)
 ```
 
 ### Learning Outcome 2 Practice:
 1. Check the class of the horsepower column (hp) 
 ```{r}
-
+class(mtcars$HP)
 ```
 
 2. Change the class of horsepower to a factor
 ```{r}
-
+mtcars$HP <- as.factor(mtcars$HP)
 ```
 
 3. Look at summaries of horsepower as a factor and as a number. What do you notice? 
 ```{r}
-
+summary(as.factor(mtcars$HP))
+summary(as.numeric(mtcars$HP))
 ```
 
 
@@ -166,20 +207,25 @@ You can make a simple function that adds two to a set of numbers
 Before we make the function, we'll make a vector of numbers (1-10) as our input
 
 ```{r}
+number <- 1:10
 
 ```
 
 then, we'll name our function addTwo and give it one argument or input
 
 ```{r}
-
+addTwo <- function(num){
+  num+2
+}
 ```
 if we run this correctly, it should show up in the environment (top right). 
 
 Then, we can use our function to add two to our vector:
 
 ```{r}
+addTwo(3)
 
+addTwo(number)
 ```
 
 One thing to note- anything you make in a function **stays in the function.** If you want to save it to a dataframe, you treat your new function just like any other R function (i.e. you need to assign the output to a column or variable)
@@ -187,27 +233,33 @@ One thing to note- anything you make in a function **stays in the function.** If
 ```{r}
 "dataframe$column <- function"
 
+numDat <- data.frame(number)
+addTwo(numDat$number)
+
+
+numDat$plusTwo <- addTwo(numDat$number)
+
 ```
 
 ## Practice:
 function to multiply by 7
 ```{r}
-
+multiplySeven <- function(num){num * 7}
 ```
 test it out
 ```{r}
-
+multiplySeven(numDat$number)
 ```
 
 Functions w/ characters
 **my favorite is**
 `paste()`
 ```{r}
-
+favoriteFood <- function(food){paste("My favorite food is", food)}
 ```
 test
 ```{r}
-
+favoriteFood("dumplings")
 ```
 
 ### Multiple argument functions
