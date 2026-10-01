@@ -177,12 +177,12 @@ levels(penguins$species)
 ### Learning Outcome 2 Practice:
 1. Check the class of the horsepower column (hp) 
 ```{r}
-class(mtcars$HP)
+class(mtcars$hp)
 ```
 
 2. Change the class of horsepower to a factor
 ```{r}
-mtcars$HP <- as.factor(mtcars$HP)
+mtcars$hp <- as.factor(mtcars$hp)
 ```
 
 3. Look at summaries of horsepower as a factor and as a number. What do you notice? 
@@ -267,33 +267,43 @@ favoriteFood("dumplings")
 We can make functions with more than one argument. For instance we could multiply all of the numbers in our original vector by a second vector 10-1
 
 ```{r}
-
+multiplyBy <- function(arg1, arg2){
+  arg1*arg2
+}
 ```
 
+Create a column in numDat with the number 10-1
 ```{r}
+numDat$revserseNum <- 10:1
 
+numDat$product <- multiplyBy(numDat$number, numDat$revserseNum)
 ```
 
 ### Learning Outcome 3 Practice
 
 1. Make a function that divides numbers by 100. 
 ```{r}
-
+divide100 <- function(num){
+  num/100
+  }
 ```
 
 2. Test your function on the mtcars mpg column.
 ```{r}
-
+divide100(mtcars$mpg)
 ```
 
 3. Make a function that finds the mean of a column and divides it by the standard deviation of another column.
 ```{r}
-
+meanDivideBySd <- function(column1,column2){
+  mean(column1)/sd(column2)
+}
 ```
 
 4. Test it on the mpg column and hp column. 
 ```{r}
-
+data(mtcars)
+meanDivideBySd(mtcars$mpg, mtcars$hp)
 ```
 
 ## Learning Outcome 4: Create your own for loop
@@ -304,11 +314,13 @@ Let's say we wanted to create a column in the chickweight dataset that indicated
 
 We'd have to make a new column
 ```{r}
+data(ChickWeight)
 
 ```
 and then fill in that new column by indexing the days column, which has 12 different days. 
 ```{r}
-
+ChickWeight$chickWeightRange <- NA
+ChickWeight$chickWeightRange[ChickWeight$Chick == 1] <- range(ChickWeight$weight[ChickWeight$Chick ==1])[2] - range(ChickWeight$weight[ChickWeight$Chick == 1])[1]
 ```
 
 We could use a **for loop** though to go through each row of the data set and fill out the new column (beginning or end) based on the days in the Time column.
@@ -327,19 +339,42 @@ think we want to do
 }
 
 ```{r}
+class(ChickWeight$Chick)
+levels(ChickWeight$Chick) #tells how many things are there and what they are 
+
+for(i in levels(ChickWeight$Chick)){
+ChickWeight$ChickWeightRange[ChickWeight$Chick==i]<- range(ChickWeight$weight[ChickWeight$Chick==i])[2]-range(ChickWeight$weight[ChickWeight$Chick==i])[1] 
+}
+```
+for loops
+```{r}
+numDat$plusThree <- NA
+
+for (i in 1:nrow(numDat)) {
+  numDat$plusThree[i] <- numDat$number[i] +3
+}
 
 ```
+
+
 
 ### Practice for Learning Outcome 4: 
 
 1. Create a for loop that will multiply each number in a vector by 4. Test it with a vector containing the numbers 10:100. 
 ```{r}
-
+for (i in 10:100) {
+  print(i * 4)
+  
+}
 ```
 
 2. Create a new column in the mtcars data set that indicated whether a car has good mileage (over 25 mpg) or bad mileage (25 mpg or fewer).  
 ```{r}
+mtcars$goodMileage <- NA
 
+for (i in 1:nrow()) {
+  
+}
 ```
 
 ## Learning Outcome 5: Create your own if statements and ifelse statments
