@@ -9,17 +9,86 @@ For your second R Assignment, complete the questions below. Remember, weekly ass
 
 # Set up
 1. Load the tidyverse library. 
+```{r}
+library(tidyverse)
+```
+
 2. Load the billboard data. 
+```{r}
+data(billboard)
+```
+
+
 3. Describe the dataset. 
+```{r}
+summary(billboard)
+```
+
+
 4. Print the column names from this dataset. 
+```{r}
+colnames(billboard)
+```
+
+
 5. Print the first 5 entries in the dataset. 
+```{r}
+billboard[1:5,]
+```
+
 
 # Practice
 1. Create a subset of data that has Jay-Z as the only artist. How many songs are in it?
+```{r}
+jayZ <- billboard %>% filter(artist == "Jay-Z")
+```
+There are 5 songs in the Jay-Z subset. 
+
+
 2. In the original dataset, use filter to find information about the song "All the small things." What was the highest position (i.e. lowest number) this song reached on the billboard 100? 
+```{r}
+billboard %>% filter(track == "All The Small Things")
+```
+The highest position this song reached on billboard 100 was 6
+
+
 3. Create a subset of data for songs Tim McGraw sang. Summarize the data for wk 1.
+```{r}
+timMcGraw <- billboard %>% filter(artist == "McGraw, Tim")
+
+summary(timMcGraw[,4])
+
+```
+
+
 4. Create a function that can be used to determine if Britney Spears sang the song. 
+```{r}
+isItBritney <- function(song){
+  billboard$artist == "Spears, Britney"
+  }
+```
+
+
 5. Test your function on the billboard data. Save the results to a new column called "wasItBritney"
+```{r}
+billboard$wasItBritney <- isItBritney(billboard$track)
+```
+
+
 6. Use a for loop to determine if a song placed 50 or below or placed above 50 during the first week. 
+```{r}
+
+```
+
+
 7. Use an if else statement to determine the same information as you obtained with the for loop. 
+```{r}
+
+```
+
+
 8. Compare your results in 6 and 7.
+```{r}
+
+```
+
