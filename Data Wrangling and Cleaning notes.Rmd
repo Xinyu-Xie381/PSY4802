@@ -21,7 +21,9 @@ You'll want to press the "import dataset" button above your global environment. 
 Once you press okay, you'll see your dataset pop up in the console below. You should move it to your .Rmd file and name it however you'd like. I have a tendency to use "dat", though it's not the most informative. Feel free to use your own name, but remember that whatever you call it here is how you'll refer to it for the rest of the lesson. 
 
 ```{r}
-
+library(readr)
+PSY4802_AggressionSampleData <- read_csv("PSY4802-AggressionSampleData.csv")
+View(PSY4802_AggressionSampleData)
 ```
 getting/setting wd
 ```{r}
