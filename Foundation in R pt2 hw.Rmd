@@ -78,33 +78,32 @@ billboard$wasItBritney <- isItBritney(billboard$track)
 6. Use a for loop to determine if a song placed 50 or below or placed above 50 during the first week. 
 ```{r}
 
-billboard$wk1aboveFifty <- NA
+billboard$wk1aboveFifty1 <- NA
 
 for (i in 1:nrow(billboard)) {
-  billboard$wk1aboveFifty[i] <- billboard$wk1[i]<  50
+  if(billboard$wk1[i] <= 50){
+    billboard$wk1aboveFifty1[i] <- "50 or above"
+  }
+  else{
+    billboard$wk1aboveFifty1[i] <- "below 50"
+  }
 }
+
 ```
 
 
 7. Use an if else statement to determine the same information as you obtained with the for loop. 
+
 ```{r}
 billboard$wk1aboveFifty2 <- NA
-
-for (i in 1:nrow(billboard)) {
-  if(billboard$wk1[i] < 50){
-    billboard$wk1aboveFifty2[i] <- "above 50"
-  }
-  else{
-    billboard$wk1aboveFifty2[i] <- "below 50"
-  }
-}
+billboard$wk1aboveFifty2 <- ifelse(billboard$wk1 <= 50, "50 or above", "below 50")
 ```
 
 
 8. Compare your results in 6 and 7.
 ```{r}
-summary(billboard$wk1aboveFifty)
+summary(billboard$wk1aboveFifty1)
 
 summary(billboard$wk1aboveFifty2)
 ```
-The data in two columns have corresponding data, except for that one column shows whether it is true of false in terms of a logical statement, the other one shows words. 
+The two columns contains the same data. 
