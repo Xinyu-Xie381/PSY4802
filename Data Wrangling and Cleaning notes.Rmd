@@ -27,15 +27,17 @@ View(PSY4802_AggressionSampleData)
 ```
 getting/setting wd
 ```{r}
+getwd()
 
+#specificy path - setwd(C:/ ...)
 ```
 
 ### Learning Outcome #1: Transform wide data to long
-There are many **many** ways to transform data from wide to long and vice versa. Sometimes, the version you pick is based on what other data you have. 
+There are many *many* ways to transform data from wide to long and vice versa. Sometimes, the version you pick is based on what other data you have. 
 
 We also need to determine what type of data we have. To make sure we're all on the same page, a quick review: 
-**Long data:** have multiple rows per participants. Each row represents a unique measurement. (in our example, each participant would have two rows: the baseline measure and the measure after the game). 
-**Wide data:** There is only one row per participant. Each column represents a unique measurement. (in our example, the data is currently in wide format).
+*Long data:* have multiple rows per participants. Each row represents a unique measurement. (in our example, each participant would have two rows: the baseline measure and the measure after the game). 
+*Wide data:* There is only one row per participant. Each column represents a unique measurement. (in our example, the data is currently in wide format).
 
 Knowing the type of data you are using and how to change it is important because you may need to change it depending on the analyses you'd like to run and how you'd like to graph the data.  
 
@@ -45,25 +47,31 @@ As mentioned above, the current data are in wide format. We can change this to l
 **pivot_longer**
 I think this is the easiest version to use. We'll need to use the "tidyverse" library. 
 ```{r}
-
+library(tidyverse)
 ```
 `pivot_longer()` uses the following structure: 
 `pivot_longer(dataframe, columns containing wide data, names_to, values_to)`
 names_to: specifies what you'd like to call the column that contains the previous column names
 values_to: specifies the name of the column where the scores go
 ```{r}
-
+aggressionDatLong <- pivot_longer(PSY4802_AggressionSampleData, cols = c("baselineAggression", "postAggression"), names_to = "timePoint", values_to = "aggressionScores")
 ```
 **Note:** remember to save the data to your environment. 
+
+```{r}
+aggressionDatPipe <- PSY4802_AggressionSampleData |> pivot_longer(cols = c("baselineAggression", "postAggression"), names_to = "timePoint", values_to = "aggressionScores")
+```
+
 
 #### Learning Outcome 1 Practice
 1. Open the relig_income dataset.
 ```{r}
-
+data(relig_income)
 ```
 
 2. Restructure the dataset so that it is in long format. 
 ```{r}
+religIncomeLong <- relig_income |> pivot_longer(cols = colnames(relig_income)[2:11], names_to = "incomeBracket", values_to = "frequency")
 
 ```
 
@@ -74,33 +82,34 @@ key- what you'd like the column containing old column names to be called
 value- what you'd like the scores column to be called
 
 ```{r}
-
+aggressionDatLong2 <- gather(PSY4802_AggressionSampleData, key = "timePoint", value = "AggressionScore", c("baselineAggression", "postAggression"))
 ```
 
 **melt**
 `melt()` is a function in the reshape2 library. It's another way to create long data
 ```{r}
+library(reshape2)
 
 ```
 `melt()` uses the following arguments: 
 `melt(dataframe, id.vars, measure.vars, variable.name, value.name)`
 ```{r}
-
+aggressionDatLong3 <- melt(PSY4802_AggressionSampleData, id.vars = c("subjNo", "ageGroup", "parentReportGender"), measure.vars = c("baselineAggression", "postAggression"), variable.name = "timePoint", value.name = "aggressionScore")
 ```
 
 ###practice: 
 
 1. open the billboard dataset. 
 ```{r}
-
+data(billboard)
 ```
 2. convert it from wide to long format. 
 ```{r}
-
+billboardLong <- pivot_longer(billboard, cols = colnames(billboard)[4:79], names_to = "week", values_to = "rank", values_drop_na = TRUE)
 ```
 #### pipes! 
 ```{r}
-
+billboardLong <-  billboard |> pivot_longer(cols = colnames(billboard)[4,79], names_to = "time", values_to = "rank")
 ```
 
 
