@@ -120,11 +120,11 @@ As above, we'll restructure the data in three ways. Again, some ways are more in
 The pair function for pivot_longer. It has the following arguments: 
 `pivot_wider(dataset, id columns, names_from, values_from)`
 ```{r}
-
+aggressionDatWide <- aggressionDatLong|> pivot_wider(id_cols = c("subjNo", "ageGroup", "parentReportGender", "condition"), names_from = "timePoint", values_from = "aggressionScores")
 ```
 
 ```{r}
-
+aggressionDatWide <- pivot_wider(aggressionDatLong, id_cols= c ("subjNo", "ageGroup", "parentReportGender", "condition"), names_from = "timePoint", values_from = "aggressionScores")
 ```
 
 **spread** 
@@ -132,7 +132,7 @@ is the pair function for gather. It has the following arguments:
 `spread(data, key, value, columns to make wide)`
 key = timepoint; value = aggression score
 ```{r}
-
+aggressionDatWide2 <- spread(aggressionDatLong, key = "timePoint", value = "aggressionScores")
 ```
 
 **dcast**
@@ -140,20 +140,22 @@ cast functions are the pairs to melt. `dcast()` specifically is used for datafra
 dcast has the following arguments: 
 `dcast(data, formula)`
 ```{r}
-
+datWide3 <- dcast(aggressionDatLong, formula = subjNo + ageGroup + parentReportGender + condition ~ timePoint)
 ```
 **Note:** dcast is really not intuitive. I pretty much determine the correct order through trial and error every time. 
 
 #### Learning Outcome 2: Practice
 1. Open the ChickWeight dataset.
 ```{r}
-
+data(ChickWeight)
 ```
 
 2. Convert it from long to wide format. 
 ```{r}
+chickWeightWide <- spread(ChickWeight, key = "Time", value = "weight")
 
-```
+chickWeightWide <- pivot_wider(ChickWeight, id_cols = c("Chick", "Diet"), names_from = "Time", values_from = "weight", names_prefix = "Day")
+``` 
 #lessons learned
 pivot_wider(ChickWeight, id_cols = c("Chick", "Diet", "Time", "weight"),names_from="Time", values_from="weight") #won't work, can only use a column name once
 
@@ -163,9 +165,17 @@ a<-pivot_wider(ChickWeight, id_cols= (1:2), names_from="Time", values_from="weig
 
 
 3. Convert from wide to long. 
-```{r}
+```{r} 
 
+chickWeightLong <- chickWeightWide |> pivot_longer(cols = c(colnames(ChickWeightWide)[3:14]), names_to = "Time", values_to = "Weight")
+
+
+chickWeightLong <- chickWeightWide |> pivot_longer(cols = (3:14), names_to = "Time", values_to =  )
+
+chickWeightLong <- chickWeightWide |> pivot_longer (colnames(chickWeightWide)[3:14], names_to = "Time", values_to = "Weight")
 ```
+
+
 
 
 ### A note on pipes for data restructuring
@@ -183,21 +193,29 @@ you can use some of the commands we've already used in a different structure
 
 1) open sleep data set
 ```{r}
-
+data(sleep)
 ```
 
 2) identify the type of data (wide/long)
 
+Long data - multiple row for the same participant
 
 3) change it to the other type
 ```{r}
-
+sleepWide <- sleep |> pivot_wider(id_cols = c("ID"), names_from = "group", values_from = "extra", names_prefix = "group")
 ```
 
 4) Go back to the chick weight dataset and take all data from chick 3 and put it in wide format 
 ```{r}
-
+chickThreeWide <- ChickWeight |> filter(Chick == 3) |> pivot_wider(id_cols = "Diet", names_from = "Time", values_from = "weight")
 ```
+
+subset first
+```{r}
+chickThree <- subset(ChickWeight, ChickWeight$Chick == 3)
+ChickThreeTwo <- chickThree |> pivot_wider(id_cols = "Diet", names_from = "Time", values_from = "weight")
+```
+
 
 ### Learning Outcome 3: Join data sets in R
 Some times, we have datasets that we need to join or merge (e.g. participant demographics in one file and responses in a second). We can combine these datasets using "join." If you've ever used/heard of SQL, join works the same way in R
@@ -229,7 +247,7 @@ use `left_join()`
 ```
 
 ### Learning Outcomes 4 & 5: Use functions to clean data (and pipes)
-Now that we've covered how to restructure data, we'll talk about ways to clean it. These are just some of the functions I find myself using, and there are certainly more. This section is a bit longer, so there will be practice questions mixed in. 
+Now that we've covered how to restructure data, we'll talk about ways to clean it. These are just some of the functions I find myself using, and there are certainly more. This section  is a bit longer, so there will be practice questions mixed in. 
 
 **Changing levels** 
 As we talked about before, there are different classes(or types) of data in R. For factors, you can change the specific levels (or categories) within the factor. 
