@@ -226,25 +226,34 @@ Make a data frame with subject number and simulated anxiety scores
 #find an anxiety scale to find range of possible scores
 #Hamilton anxiety rating scale (0 no anxiety; <17 mild;18-24- mild/moderate, 25-30- moderate/severe ;30- 56- severe)
 
+subjNo <- PSY4802_AggressionSampleData$subjNo
+anxietyScore <- sample(0:56, 48, replace = TRUE)
+#pick num from 0-56 for 48 objects, replace = can pick a num more than once
+
+anxietyDat <- cbind.data.frame(subjNo, anxietyScore)
 ```
 use `left_join()`
 ```{r}
 
-
+aggressionAnxietyDat <- left_join(PSY4802_AggressionSampleData, anxietyDat, by = "subjNo")
+#join by subjNo
 ```
 
 `right_join()` does the same thing, but starts on the right. 
 
+
 #### Learning Outcome 3 Practice
 1. Create a dataframe (n=48) that includes subject numbers and executive function scores (ranging from 0-16).
 ```{r}
-
+efScores <- sample(0:16, 48, replace = TRUE)
+efDat <- cbind.data.frame(subjNo, efScores)
 ```
 
 2. Join your dataset in #1 to the original Aggression dataset. 
 ```{r}
-
+aggressionEfDat <- left_join(PSY4802_AggressionSampleData, efDat, by = "subjNo")
 ```
+
 
 ### Learning Outcomes 4 & 5: Use functions to clean data (and pipes)
 Now that we've covered how to restructure data, we'll talk about ways to clean it. These are just some of the functions I find myself using, and there are certainly more. This section  is a bit longer, so there will be practice questions mixed in. 
@@ -256,12 +265,14 @@ As we talked about before, there are different classes(or types) of data in R. F
 Let's take the example from our final dataset (datFinal). We can change parentReportGender to have levels of "boy" and "girl."
 we'll check what class it is first
 ```{r}
+class(aggressionAnxietyDat$parentReportGender)
 
 ```
 it's currently a character, so we can change it to a factor using as.factor (which we talked about last week). Then, we can use the function `levels()` to change the data. 
 
 ```{r}
-
+aggressionAnxietyDat$parentReportGenderTwo <- as.factor(aggressionAnxietyDat$parentReportGender)
+levels(aggressionAnxietyDat$parentReportGenderTwo) <- c("girl", "boy")
 ```
 
 Note: because I saved these as different columns, I can directly compare the data held in each to ensure I've changed everything correctly. 
@@ -273,31 +284,38 @@ Note: because I saved these as different columns, I can directly compare the dat
 Also, keep in mind that changing levels of a factor requires you to know **know what levels are currently in your data.** You can check this by either printing the column as I've done above, or using the levels command:
 `factor(data, levels = x,y,z)`
 ```{r}
-
+aggressionAnxietyDat$parentReportGender <- factor(aggressionAnxietyDat$parentReportGender, level = c("F", "M"), labels = c("girl", "boy"))
 ```
 I'd recommend this version, particularly if you have a large data set. 
 
 #### Practice: 
 1. Create a column in the aggression dataset that contains condition as a factor. 
 ```{r}
+class(aggressionAnxietyDat$condition)
 
 ```
 
 2. Change the levels to "e" for exclusion and "i" for inclusion. 
 ```{r}
-
+aggressionAnxietyDat$condition <- factor(aggressionAnxietyDat$condition, level = c("Exclusion", "Inclusion"), labels = c("E", "I"))
 ```
 
 3. Check that you have done this successfully. 
 ```{r}
-
+levels(aggressionAnxietyDat$condition)
 ```
 
 **reordering factors**
 You may have noticed that writes levels of a factor in alphabetical order. Sometimes, this is really helpful. Other times, it can complicate statistical models and graphs because there are more meaningful ways to reorder your data. You can reorder the data using relevel. 
 It has the general structure `relevel(column, reference level)`
 ```{r}
+levels(aggressionAnxietyDat$parentReportGenderTwo)
 
+#girl is currently the first category or reference category
+
+aggressionAnxietyDat$parentReportGenderTwo <- relevel(aggressionAnxietyDat$parentReportGenderTwo, ref = "boy")
+
+levels(aggressionAnxietyDat$parentReportGenderTwo)
 ```
 If you have more levels, you can specify the order in your factor function 
 
@@ -306,7 +324,10 @@ If you have more levels, you can specify the order in your factor function
 #### Practice
 1. Reorder the condition variable in your final dataset so that inclusion is the reference category. 
 ```{r}
+levels(aggressionAnxietyDat$condition)
+aggressionAnxietyDat$condition <- relevel(aggressionAnxietyDat$condition, ref = "I")
 
+levels(aggressionAnxietyDat$condition)
 ```
 
 **Reverse Coding**
@@ -315,13 +336,23 @@ For those of you who have survey data, you may be interested in using a function
 
 I'm going to make a new column to demonstrate this.
 ```{r}
+aggressionAnxietyDat$preferenceLike <- sample(c("Includer", "Excluder"), nrow(aggressionAnxietyDat), replace = TRUE)
 
+aggressionAnxietyDat$likeExcluder <- sample(1:5, nrow(aggressionAnxietyDat), replace = TRUE)
+
+aggressionAnxietyDat$likeIncluder <- sample(1:5, nrow(aggressionAnxietyDat), replace = TRUE)
 ```
 To reverse code it, we would write
 `recode(data, 'how to recode')`
 There is also a recode in the car package
 ```{r}
+#reverse score excluder
+library(car)
 
+aggressionAnxietyDat$likeExcluderRev <- car::recode(aggressionAnxietyDat$likeExcluder, recodes = " '1'=5; '2'=4; '3' = 3; '4' = 2; '5' = 1")
+
+
+aggressionAnxietyDat |> mutate(likeExcluderRev2 = dplyr::recode(likeExcluder, "5"="1","4"="2","3"="3","2"="4","1"="5")) |> select(likeExcluder, likeExcluderRev)
 ```
 Note: you'll notice that I wrote "car::" before the record function. This is necessary sometimes. Remember, the libraries are made by **different** people. People use the same words for different functions. So we need to tell R which of the functions we want to use. 
 
@@ -331,7 +362,10 @@ separate uses the following arguments:
 `separate(data, columns, into, sep)`
 let's look at the subject column in our dataset
 ```{r}
+aggressionAnxietyDat |> separate(subjNo, into = c("condition2", "subjNo"), sep = 1)
 
+#sep can also be a character
+#sep = "-"
 ```
 
 **Mutate** 
@@ -339,10 +373,10 @@ When you are cleaning data, there are occasionally instances where you need to u
 
 To practice using Mutate, we're going to use a messier dataset
 ```{r}
-
+data(starwars)
 ```
 
 If you open the dataset, you can see that we have both height and mass variables. You can see that height is in cm, so we can convert height to meters
 ```{r}
-
+starwars |> mutate(heightM = height/100) |> select(height, heightM)
 ```
