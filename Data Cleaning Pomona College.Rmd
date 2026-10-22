@@ -1,0 +1,25 @@
+---
+title: "data cleaning pomona college"
+output: html_document
+date: "2026-10-20"
+---
+```{r}
+library(tidyverse)
+pomonaRep <- pomonaCollegeDat[-2, ]
+```
+
+```{r}
+#location column
+pomonaRep$location <- "Pomona College"
+```
+
+
+```{r}
+#creating subject column
+pomonaRep$subj <- 1:nrow(pomonaRep)
+```
+
+```{r}
+colnames(pomonaRep)[7] <- "age"
+```
+
