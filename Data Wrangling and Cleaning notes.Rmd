@@ -109,7 +109,7 @@ billboardLong <- pivot_longer(billboard, cols = colnames(billboard)[4:79], names
 ```
 #### pipes! 
 ```{r}
-billboardLong <-  billboard |> pivot_longer(cols = colnames(billboard)[4,79], names_to = "time", values_to = "rank")
+billboardLong <-  billboard |> pivot_longer(cols = colnames(billboard)[4:79], names_to = "week", values_to = "rank")
 ```
 
 
@@ -167,12 +167,12 @@ a<-pivot_wider(ChickWeight, id_cols= (1:2), names_from="Time", values_from="weig
 3. Convert from wide to long. 
 ```{r} 
 
-chickWeightLong <- chickWeightWide |> pivot_longer(cols = c(colnames(ChickWeightWide)[3:14]), names_to = "Time", values_to = "Weight")
+chickWeightLong <- chickWeightWide |> pivot_longer(cols = c(colnames(chickWeightWide)[3:14]), names_to = "Time", values_to = "Weight")
 
 
-chickWeightLong <- chickWeightWide |> pivot_longer(cols = (3:14), names_to = "Time", values_to =  )
+#chickWeightLong <- chickWeightWide |> pivot_longer(cols = (3:14), names_to = "Time", values_to = "Weight" )
 
-chickWeightLong <- chickWeightWide |> pivot_longer (colnames(chickWeightWide)[3:14], names_to = "Time", values_to = "Weight")
+#chickWeightLong <- chickWeightWide |> pivot_longer (colnames(chickWeightWide)[3:14], names_to = "Time", values_to = "Weight")
 ```
 
 
