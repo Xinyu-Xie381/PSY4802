@@ -12,10 +12,12 @@ data(sleep)
 ```
 
 2. Is it long or wide format? How do you know? 
+
 It is long format because each participant has more than one row. 
 
 3. Transform this data so that it is in the other format. 
 ```{r}
+library(tidyverse)
 sleepWide <- sleep |> pivot_wider(id_cols = "ID", names_from = "group", values_from = "extra" )
 ```
 
@@ -33,6 +35,7 @@ data(starwars)
 6. Create homeworld as a factor. How many levels does it have? 
 ```{r}
 starwars$homeworld <- factor(starwars$homeworld)
+
 levels(starwars$homeworld)
 ```
 There are 48 levels. 
@@ -40,7 +43,7 @@ There are 48 levels.
 7. Reorder homeworld so that Naboo is the reference group. 
 ```{r}
 starwars$homeworld <- relevel(starwars$homeworld, ref = "Naboo")
-levels(starwars$homeworld)
+
 ```
 
 
@@ -65,23 +68,23 @@ data(billboard)
 
 11. are the data in this dataframe in long or wide format? explain how you know. 
 
-It's in wide format because each song has only one row and the data for each week are added next to each one. 
+It's in wide format because each song has only one row that included the rankings for 76 weeks. 
 
 
 12. change the data from its original format to the other version. 
 ```{r}
-billboardLong <- billboard |> pivot_longer(cols = colnames(billboard)[4:79], names_to = "time", values_to = "rank")
+billboardLong <- billboard |> pivot_longer(cols = colnames(billboard)[4:79], names_to = "week", values_to = "rank")
 ```
 
 
 13. change it from your altered version in #3 back to its original state. 
 ```{r}
-billboardWide <- billboardLong |> pivot_wider(id_cols = c("artist", "track", "date.entered"), names_from = "time" , values_from = "rank")
+billboardWide <- billboardLong |> pivot_wider(id_cols = c("artist", "track", "date.entered"), names_from = "week" , values_from = "rank")
 ```
 
 
 14. Separate the date entered column into three columns: one for year, one for month, and one for day.
 ```{r}
-billboard |> separate(date.entered, into = c("year.entered", "month.entered", "day.entered"), sep = "-")
+billboard <- billboard |> separate(date.entered, into = c("year.entered", "month.entered", "day.entered"), sep = "-")
 ```
 
