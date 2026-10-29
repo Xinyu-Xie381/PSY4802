@@ -1,0 +1,21 @@
+---
+title: "Untitled"
+output: html_document
+date: "2026-10-27"
+---
+
+```{r}
+library(readr)
+darkTriad_Data_1 <- read_csv("C:/Users/xxiny/Downloads/darkTriad_Data-1.csv")
+View(darkTriad_Data_1)
+```
+
+```{r}
+library(ggplot2)
+ggplot(darkTriad_Data_1, aes(Psychopathy)) + geom_histogram(fill = "pink", color = "purple") + theme_light() + labs(x = "Psychopathy Score", y = "Count of Psychopathy Score", title = "Psychopathy Score")
+```
+
+```{r}
+ggplot(darkTriad_Data_1, aes(Psychopathy)) +geom_bar(fill = "red")+ geom_histogram() 
+```
+
