@@ -35,7 +35,7 @@ ggplot(starwars, aes(homeworld, height)) + geom_point()
 
 ```{r}
 
-ggplot(starwars, aes(homeworld, height)) + geom_point(shpae = 16, color = "violet") + theme_light() + labs(x = "Homeworld", y = "Height", title = "Height in Starwars Characters")
+ggplot(starwars, aes(homeworld, height)) + geom_point(shpae = 16, color = "violet") + theme_light() + labs(x = "Homeworld", y = "Height", title = "Height of Starwars Characters")
 ```
 
 
@@ -48,7 +48,7 @@ ggplot(starwars, aes(mass, height)) + geom_point()
 
 7.Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
 ```{r}
-ggplot(starwars, aes(mass, height)) + geom_point(shape = 12, color = "lightpink") + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black")
+ggplot(starwars, aes(mass, height)) + geom_point(shape = 12, color = "lightpink") + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + theme_light()
 ```
 
 
