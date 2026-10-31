@@ -26,7 +26,8 @@ ggplot(starwars, aes(eye_color)) + geom_bar(fill = "wheat", color = "lightpink")
 
 4. Create a graph displaying information about character's height in each homeworld. 
 ```{r}
-ggplot(starwars, aes(height, fill = homeworld)) + geom_bar()
+ggplot(starwars, aes(homeworld, height)) + geom_point()
+
 ```
 
 
@@ -34,6 +35,7 @@ ggplot(starwars, aes(height, fill = homeworld)) + geom_bar()
 
 ```{r}
 
+ggplot(starwars, aes(homeworld, height)) + geom_point(shpae = 16, color = "violet") + theme_light() + labs(x = "Homeworld", y = "Height", title = "Height in Starwars Characters")
 ```
 
 
@@ -58,6 +60,6 @@ ggplot(starwars, aes(mass, height, color = gender)) + geom_point()
 
 9. Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
 ```{r}
-ggplot(starwars, aes(mass, height, color = gender)) + geom_point(shape = 12, color = "lightpink") + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") 
+ggplot(starwars, aes(mass, height, color = gender)) + geom_point(shape = 3) + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + labs(x = "Mass", y = "Height", title = "Starwars' Character Height by Mass") + theme_classic()
 ```
 
