@@ -48,7 +48,7 @@ ggplot(starwars, aes(mass, height)) + geom_point()
 
 7.Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
 ```{r}
-ggplot(starwars, aes(mass, height)) + geom_point(shape = 12, color = "lightpink") + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + theme_light()
+ggplot(starwars, aes(mass, height)) + geom_point(shape = 12, color = "lightpink") + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + theme_light() + labs(x = "Mass", y = "Height", title = "Starwars Characters' Height by Mass")
 ```
 
 
@@ -60,6 +60,6 @@ ggplot(starwars, aes(mass, height, color = gender)) + geom_point()
 
 9. Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
 ```{r}
-ggplot(starwars, aes(mass, height, color = gender)) + geom_point(shape = 3) + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + labs(x = "Mass", y = "Height", title = "Starwars' Character Height by Mass") + theme_classic()
+ggplot(starwars, aes(mass, height, color = gender)) + geom_point(shape = 3) + geom_smooth(method = "lm", width = 1, linetype = "dashed", color = "black") + labs(x = "Mass", y = "Height", title = "Starwars Characters' Height by Mass") + theme_classic()
 ```
 
