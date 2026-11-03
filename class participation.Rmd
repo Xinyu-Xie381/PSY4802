@@ -25,13 +25,13 @@ narcissim
 best graph
 ```{r}
 library(viridis)
-ggplot(darkTriad_Data_1, aes(Narcissism)) + geom_bar()+ scale_fill_brewer("Purples") + theme_light() + labs(x = "Narcissim Score", y = "Number of Individuals", title = "Narcissm Score Distribution")
+ggplot(darkTriad_Data_1, aes(Narcissism)) + geom_bar()+ scale_color_brewer("Purples") + theme_light() + labs(x = "Narcissim Score", y = "Number of Individuals", title = "Narcissm Score Distribution")
 ```
 
 worst graph
 ```{r}
 
-ggplot(darkTriad_Data_1, aes(Narcissism, Psychopathy)) + geom_point() + facet_wrap(~source)+ theme_dark()
+ggplot(darkTriad_Data_1, aes(Narcissism, Psychopathy)) + geom_point() + facet_wrap(~source)+ theme_dark() + theme(text = element_text(family = "mono", size = 100))
 ```
 
 
