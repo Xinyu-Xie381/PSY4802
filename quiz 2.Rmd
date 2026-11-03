@@ -9,6 +9,11 @@ output: html_document
 This quiz will focus on data frame manipulation, however, you may need to rely on skills you've learned in prior weeks. 
 
 1. load the starwars dataset from tidyverse
+```{r}
+library(tidyverse)
+data(starwars)
+```
+
 
 2. separate the films column so that there is one film in each column (don't worry about the "c(" and ) at the end for now)
 
