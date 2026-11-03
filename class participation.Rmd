@@ -9,13 +9,29 @@ library(readr)
 darkTriad_Data_1 <- read_csv("C:/Users/xxiny/Downloads/darkTriad_Data-1.csv")
 View(darkTriad_Data_1)
 ```
-
+best graph
 ```{r}
 library(ggplot2)
 ggplot(darkTriad_Data_1, aes(Psychopathy)) + geom_histogram(fill = "pink", color = "purple") + theme_light() + labs(x = "Psychopathy Score", y = "Count of Psychopathy Score", title = "Psychopathy Score")
 ```
-
+worst graph
 ```{r}
 ggplot(darkTriad_Data_1, aes(Psychopathy)) +geom_bar(fill = "red")+ geom_histogram() 
 ```
+
+
+narcissim 
+
+best graph
+```{r}
+library(viridis)
+ggplot(darkTriad_Data_1, aes(Narcissism)) + geom_bar()+ scale_fill_brewer("Purples") + theme_light() + labs(x = "Narcissim Score", y = "Number of Individuals", title = "Narcissm Score Distribution")
+```
+
+worst graph
+```{r}
+
+ggplot(darkTriad_Data_1, aes(Narcissism, Psychopathy)) + geom_point() + facet_wrap(~source)+ theme_dark()
+```
+
 
