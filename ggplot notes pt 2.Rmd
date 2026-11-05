@@ -59,13 +59,13 @@ ggplot(penguins, aes(bill_len, bill_dep, color = island)) + geom_point() + theme
 
 3) Remove the legend from the graph 
 ```{r}
-ggplot(penguins, aes(bill_len, bill_dep, color = island)) + geom_point() + theme(legend.position = "none")
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = island)) + geom_point() + theme(legend.position = "none")
 ```
 
 4) Change the title of the legend
 
 ```{r}
-ggplot(penguins, aes(bill_len, bill_dep, color = islands))+ geom_point() + scale_color_brewer(palette = "Blues", name = "Island Habitant")
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = island))+ geom_point() + scale_color_brewer(palette = "Blues", name = "Island Habitant") + theme(legend.position = "top")
 ```
 
 5) make a graph of bill length and bill depth. Include flipper length as a third variable
@@ -106,7 +106,7 @@ ggplot(diamonds, aes(color, price, color = cut)) + geom_point() + facet_wrap(~cu
 1) create a facet wrap graph to generate a scatterplot of mpg and hp based on the number of cylinders a car has
 ```{r}
 data(mtcars)
-ggplot(mtcars, aes(mpg, hp, color = cyl)) + geom_point() + facet_wrap(~cyl) + scale_color_viridis(discrete = FALSE, option = "magma")
+ggplot(mtcars, aes(mpg, hp, color = as.factor(gear))) + geom_point() + facet_wrap(~gear) 
 ```
 
 ### Learning Outcome 3: Explain how to export graphs
