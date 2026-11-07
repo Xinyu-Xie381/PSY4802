@@ -19,7 +19,7 @@ ggplot(starwars, aes(height, mass)) + geom_point()
 
 2a. Change the color and shape of the points in your scatter plot. 
 ```{r}
-ggplot(starwars, aes(height, mass)) + geom_point(shape = 10, color = "purple")
+ggplot(starwars, aes(height, mass)) + geom_point(shape = 10, color = "violet")
 ```
 
 3. Add Homeworld as a third variable to your scatterplot. 
@@ -29,6 +29,9 @@ ggplot(starwars, aes(height, mass, color = homeworld)) + geom_point(shape = 10)
 
 3a. What do you notice about the graph? (e.g. describe what you see)
 
+I noticed that since colors consists of gradient of colors and some colors only differ being a bit darker or lighter, it is hard to distinguish what homeworld each point represents
+
+
 4. Make a boxplot of height. 
 ```{r}
 ggplot(starwars, aes(height)) + geom_boxplot()
@@ -36,17 +39,19 @@ ggplot(starwars, aes(height)) + geom_boxplot()
 
 5. Make a boxplot of height for each species present in the data. 
 ```{r}
-ggplot(starwars, aes(height, color = species)) + geom_boxplot() 
+ggplot(starwars, aes(height, species)) + geom_boxplot() 
 ```
 
 5a. change the appearance of your graph in at least 3 ways. 
 ```{r}
-ggplot(starwars, aes(height, species)) + geom_boxplot() + theme_classic() + labs(x = "Height", y = "Species", title = "Height in Different Species in Starwars") 
+library(viridis)
+ggplot(starwars, aes(height, species)) + geom_boxplot() + theme_classic() + labs(x = "Height", y = "Species", title = "Starwars Character Height by Species") + theme(text = element_text(family = "serif", size = 12))
 ```
 
 6. Using any variables in the starwars dataset, create a graph that uses a color palette from viridis.
 ```{r}
 library(viridis)
-ggplot(starwars, aes(height, mass)) + geom_point() + scale_color_brewer("Purple")
+ggplot(starwars, aes(height, mass, color = sex)) + geom_point() + scale_color_brewer(palette = "Reds")
+
 ```
 
