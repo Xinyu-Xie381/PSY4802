@@ -1,5 +1,61 @@
 ---
-title: "Untitled"
+title: "Participation 11/17"
 output: html_document
 date: "2026-11-17"
 ---
+
+submit a R markdown file that contains 3 chunks of code. These chunks should have 3-5 mistakes (across all three scenarios). Write out the answers to fix the code. Your work should take the following format: 
+
+
+#Code to be fixed: 
+
+scenario 1:
+
+```{r}
+library(tidyverse)
+data(starwars)
+
+lmStarwars <- lm(homeworld ~ species, data = starwars)
+summarize(lmStarwars)
+```
+
+scenario 2:
+```{r}
+data(diamonds)
+ggplot(diamonds, aes(clarity, price)) + geom_point() + scale_fill_brewer(palette = "Purples")
+```
+
+
+scenario 3:
+
+```{r}
+a1 <- Anova(cut ~ price x color, data = diamonds)
+summary(a1)
+```
+
+
+#Solved codes: 
+
+scenario 1:
+```{r}
+library(tidyverse)
+data(starwars)
+
+lmStarwars <- lm(birth_year ~ height, data = starwars)
+summary(lmStarwars)
+```
+
+
+scenario 2:
+```{r}
+data(diamonds)
+ggplot(diamonds, aes(clarity, price, color = cut)) + geom_boxplot() + facet_wrap(~cut) + scale_fill_brewer(palette = "Purples")
+```
+
+
+scenario 3:
+```{r}
+a1 <- aov(depth ~ price * carat, data = diamonds)
+summary(a1)
+```
+
