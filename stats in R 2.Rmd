@@ -1,0 +1,12 @@
+---
+title: "Untitled"
+output: html_document
+date: "2026-11-17"
+---
+
+#Moderation
+
+a third variable affects strength of relationship between 2 other variables (outcome and predictor)
+
+lm(outcome ~ predictor * moderator, data = dat)
+
