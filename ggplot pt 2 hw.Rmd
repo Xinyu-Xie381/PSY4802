@@ -69,3 +69,4 @@ ggplot(starwarsTrimmed, aes(height, mass)) + geom_point() + facet_wrap(~sex)
 
 ```
 
+
