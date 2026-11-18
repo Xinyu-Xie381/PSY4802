@@ -49,7 +49,7 @@ summary(lmStarwars)
 scenario 2:
 ```{r}
 data(diamonds)
-ggplot(diamonds, aes(clarity, price, color = cut)) + geom_boxplot() + facet_wrap(~cut) + scale_fill_brewer(palette = "Purples")
+ggplot(diamonds, aes(clarity, price, color = cut)) + geom_boxplot() + facet_wrap(~cut) + scale_color_brewer(palette = "Set1")
 ```
 
 
