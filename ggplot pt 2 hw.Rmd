@@ -51,7 +51,21 @@ ggplot(starwars, aes(height, species)) + geom_boxplot() + theme_classic() + labs
 6. Using any variables in the starwars dataset, create a graph that uses a color palette from viridis.
 ```{r}
 library(viridis)
-ggplot(starwars, aes(height, mass, color = sex)) + geom_point() + scale_color_brewer(palette = "Reds")
+starwarsTrimmed <- na.omit(starwars)
+ggplot(starwarsTrimmed, aes(height, mass, color = sex)) + geom_point() + scale_fill_viridis(discrete = TRUE, option = "magma")
+
+```
+
+7.Using any variables in the starwars dataset, create a graph that uses a color palette from RColorBrewer.
+
+```{r}
+ggplot(starwarsTrimmed, aes(height, mass, color = sex)) + geom_point() + scale_color_brewer(palette = "Spectral")
+```
+
+8. Using any variables in the starwars dataset, create a graph using facet_wrap
+
+```{r}
+ggplot(starwarsTrimmed, aes(height, mass)) + geom_point() + facet_wrap(~sex)
 
 ```
 
