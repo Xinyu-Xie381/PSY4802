@@ -45,11 +45,35 @@ x and y are related through a third variable
 ```{r}
 library(mediation)
 ```
-
+ 
 
 Preacher and Hayes -
 1) predict mediator from x - simple regression
 2) predict y from x and mediator
 
+Interpretation: 
+Total Effect: tells relationship between x and y (indirect and direct effect)
+ADE: tells about whether there is a direct effect between x and y
+ACME: tells use where the relationship is mediated 
+
 # Does birth year mediate relationship between height and mass
+```{r}
+starwars2<- na.omit(starwars)
+lma<- lm(birth_year ~ height, data=starwars2)
+summary(lma)
+lmb<- lm(mass ~ birth_year+height, data=starwars2)
+summary(lmb)
+med<-mediate(lma, lmb, treat= "height", mediator= "birth_year")
+summary(med)
+
+```
+
+#logistic regression
+linear regression with a dichotomous outcome
+glm(outcome ~ predictor, data = dat, family = "binomial")
+
+```{r}
+data(mtcars)
+summary(glm(am ~ mpg, data = mtcars))
+```
 
