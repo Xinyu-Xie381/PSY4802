@@ -406,17 +406,18 @@ binom.test(14, 20, .2)
 
 biserial correlation b/c one variable is binary and the other is continuous
 ```{r}
-
+biserial.cor(mtcars$hp, mtcars$vs)
 ```
 
 2. Run a wilcoxon sign rank test to determine if cylinder and gears have different means. 
 ```{r}
-
+wilcox.test(cyl ~ gear, data = mtcars, paired = TRUE)
 ```
 
 3. Run a binomial test to determine if the number of cars with manual transmission differs from chance. (hint: use the ? feature to learn more about the dataset.)
 
 
 ```{r}
-
+manual <- mtcars |> filter(am == 1)
+binom.test(nrow(manual), nrow(mtcars), p = 1/2)
 ```
